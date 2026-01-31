@@ -1,12 +1,35 @@
-from flask import Flask
+import os
 
+
+import tensorflow as tf
+from flask import Flask, request
+
+from classifier import classify
 app = Flask(__name__)
 
+STATIC_FOLDER = "static"
+UPLOAD_FOLDER = os.path.join(STATIC_FOLDER, "uploads")
 
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+cnn_model = tf.keras.models.load_model(STATIC_FOLDER + "/models/" + "chess_model.h5")
+
+@app.route("/")
+def home():
+    return "<p>Hello, please go to '/classify' to predict chess figure</p>"
+
+
+app.post("/classify")
+def upload_file():
+    file = request.files["file"]
+    upload_image_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    file.save(upload_image_path)
+
+    label, prob = classify(cnn_model, upload_image_path)
+
+    prob = round(prob * 100, 2)
+
+    return {"label": label, "probability": prob}
 
 
 if __name__ == '__main__':
-    app.run()
+    app.debug = True
+    app.run(debug=True)
