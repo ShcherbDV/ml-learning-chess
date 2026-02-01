@@ -1,6 +1,16 @@
+import numpy as np
 import tensorflow as tf
 
 IMAGE_SIZE = (128, 128)
+
+CLASS_NAMES = [
+    "bishop",
+    "king",
+    "knight",
+    "pawn",
+    "queen",
+    "rook"
+]
 
 def preprocess_image(image):
     img_array = tf.keras.preprocessing.image.img_to_array(image)
@@ -16,9 +26,14 @@ def load_and_preprocess_image(path: str):
     return preprocess_image(image)
 
 def classify(model, image_path: str):
-    preprocessed_image = load_and_preprocess_image(image_path)
-    predictions = model.predict(preprocessed_image)
+    img = load_and_preprocess_image(image_path)
 
-    score = predictions[0][0]
+    predictions = model.predict(img)
 
-    return  score
+    probabilities = predictions[0]
+    class_index = int(np.argmax(probabilities))
+
+    label = CLASS_NAMES[class_index]
+    confidence = float(probabilities[class_index])
+
+    return  label, confidence
