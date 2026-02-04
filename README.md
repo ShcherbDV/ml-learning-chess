@@ -1,8 +1,8 @@
 # ♟️ Chess Piece Image Classifier (Flask + TensorFlow)
 
-Невеликий ML-проєкт на Python Flask, який приймає зображення шахової фігури та повертає, яка саме фігура зображена (pawn, rook, knight, bishop, queen, king) разом з ймовірністю передбачення.
+This is a small ML-project on Python Flask, it takes a picture of the chess figure and returns what kind of figure this is it (pawn, rook, knight, bishop, queen, king) with probability of it.
 
-Проєкт використовує **заздалегідь натреновану CNN-модель TensorFlow** та REST API на Flask.
+The project use **before trained CNN-model TensorFlow** and REST API on Flask.
 
 ---
 
@@ -14,13 +14,13 @@
 - 📓 **Google Colab (training notebook):**  
   👉 *https://colab.research.google.com/drive/13lb1e9h99Qg-h48vpv08AHnlY4CV_jT7#scrollTo=HfiOsa2i_m_W*
 
-> ⚠️ Порядок класів у `classifier.py` **має відповідати порядку класів під час тренування**.
+> ⚠️ Classis order in `classifier.py` **must match classis order during training**.
 
 ---
 
-## 🧠 Підтримувані класи
+## 🧠 Support classes
 
-Модель класифікує 6 шахових фігур:
+Model recognize 6 chess figures:
 
 - pawn
 - rook
@@ -31,7 +31,7 @@
 
 ---
 
-## 🏗️ Структура проєкту
+## 🏗️ Project architect
 
 ``` text
 .
@@ -39,8 +39,8 @@
 ├── classifier.py # Image preprocessing + inference
 ├── static/
 │ ├── models/
-│ │ └── chess_model.h5 # Натренована модель
-│ └── uploads/ # Тимчасові завантажені зображення
+│ │ └── chess_model.h5 # Trained model
+│ └── uploads/ # Temp upload images
 ├── requirements.txt
 └── README.md
 
@@ -49,41 +49,41 @@
 
 ---
 
-## 🚀 Запуск проєкту локально
+## 🚀 Local start project
 
-### 1 Клонувати репозиторій
+### 1 Clone repository
 ```bash
 git clone <repo_url>
 cd ml_learning_chess
 ```
-### 2 Створити та активувати virtual env
+### 2 Create and activate virtual env
 ```bash
 python -m venv .venv
 source .venv/bin/activate      # macOS / Linux
 # .venv\Scripts\activate       # Windows
 ```
-### 3 Встановити залежності
+### 3 Install requirements
 ```bash
 pip install -r requirements.txt
 ```
-### 4 Запустити Flask серевер
+### 4 Start Flask server
 ```bash
 python ap.py
 ```
-🔌 Використання API
+🔌 Using API
 POST /classify
-📥 Запит
+📥 Request
 
-Тип: multipart/form-data
+Type: multipart/form-data
 
-Поле: file (зображення шахової фігури)
+Field: file (image of chess figure)
 
-### Приклад через curl:
+### Example throw curl:
 ```bash
 curl -X POST http://127.0.0.1:5000/classify \
   -F "file=@queen.png"
 ```
-### 📤 Відповідь:
+### 📤 Response:
 ```json
 {
   "figure": "queen",
@@ -91,7 +91,7 @@ curl -X POST http://127.0.0.1:5000/classify \
 }
 ```
 
-## 🛠️ Технології
+## 🛠️ Technologies
 
 Python 3.10+
 
@@ -101,13 +101,13 @@ TensorFlow / Keras
 
 NumPy
 
-## ⚠️ Важливі нотатки
+## ⚠️ Important notes
 
-Preprocessing під час inference повинен збігатися з preprocessing під час training
+Preprocessing during inference must math to preprocessing during training
 
-Класи у CLASS_NAMES мають бути в правильному порядку
+Classes in CLASS_NAMES must be in the right order
 
-API очікує одну фігуру на зображенні
+API await for a one figure per request
 
-## Приклад тесту через Postman
+## Example throw the Postman
 ![DEMO](assets/demo.png)
