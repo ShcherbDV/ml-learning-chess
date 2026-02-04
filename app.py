@@ -2,7 +2,7 @@ import os
 
 
 import tensorflow as tf
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 from classifier import classify
 app = Flask(__name__)
@@ -36,6 +36,32 @@ def upload_file():
         "figure": label,
         "confidence": round(confidence * 100, 2),
     }
+
+
+@app.get("/ui")
+def ui():
+    return render_template("index.html")
+
+
+@app.post("/classify-ui")
+def classify_ui():
+    file = request.files.get("file")
+
+    if not file or file.filename == "":
+        return render_template("index.html", error="No file selected")
+
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+    image_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    file.save(image_path)
+
+    label, confidence = classify(cnn_model, image_path)
+
+    return render_template(
+        "index.html",
+        figure=label,
+        confidence=round(confidence * 100, 2)
+    )
 
 
 if __name__ == '__main__':
