@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Chess Piece Classifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            max-width: 400px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        input[type="file"] {
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            background: #2c3e50;
+            color: white;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #34495e;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .confidence {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>♟️ Chess Piece Classifier</h2>
+
+    <form action="/classify-ui" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <br>
+        <button type="submit">Classify</button>
+    </form>
+
+    {% if figure %}
+    <div class="result">
+        <p><strong>Figure:</strong> {{ figure }}</p>
+        <p class="confidence">
+            Confidence: {{ confidence }}%
+        </p>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
