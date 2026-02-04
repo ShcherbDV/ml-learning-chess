@@ -111,3 +111,7 @@ API await for a one figure per request
 
 ## Example throw the Postman
 ![DEMO](assets/demo.png)
+
+## Example throw the browser
+![DEMO](assets/demo2.png)
+![DEMO](assets/demo3.png)
